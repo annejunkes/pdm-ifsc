@@ -3,8 +3,10 @@ package com.ifsc.contaclick;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,8 +15,12 @@ public class MainActivity extends AppCompatActivity {
 
     Integer i=0;
 
-    EditText edNome, edPeso, edAltura;
-    TextView tvIMC;
+    Integer imagem = R.drawable.perfil;
+    EditText edNome, edDesc;
+    ImageView imageView;
+    //TextView tvNome;
+    //TextView tvDesc;
+
 
     Button b;
 
@@ -24,20 +30,18 @@ public class MainActivity extends AppCompatActivity {
         Log.d("ciclo de vida", "método onCreate");
         setContentView(R.layout.activity_main);
 
-        edAltura =  findViewById(R.id.edAltura);
-        edPeso =  findViewById(R.id.edPeso);
-        edNome =  findViewById(R.id.edNome);
+        imageView = findViewById(R.id.image);
+        imageView.setImageResource(imagem);
+        edDesc =  findViewById(R.id.edTextDesc);
+        edNome =  findViewById(R.id.edTextNome);
 
-        tvIMC = findViewById(R.id.tvIMCTxt);
+       /* tvIMC = findViewById(R.id.tvIMCTxt);
         b = findViewById(R.id.button);
 
         b.setOnClickListener(v->{
 
             String heightTxt = edAltura.getText().toString();
             double height = Double.parseDouble(heightTxt);
-
-            String weightTxt = edPeso.getText().toString();
-            double weight = Double.parseDouble(weightTxt);
 
             double imc = weight/(height*height);
 
@@ -52,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("imc",imcTxt);
             startActivity(intent);
         });
+
+        */
 
 
     }
