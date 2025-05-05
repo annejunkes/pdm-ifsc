@@ -1,9 +1,13 @@
 package com.ifsc.contaclick;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,32 +16,36 @@ public class MainActivity extends AppCompatActivity {
 
     Integer i=0;
 
-    EditText edPeso, edAltura;
-    TextView tvIMC;
+    String [] nomes = new String[] {"Anne", "Fernanda", "Jaque", "Mariana"};
 
-    Button b;
+    ListView lv;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        edAltura =  findViewById(R.id.edAltura);
-        edPeso =  findViewById(R.id.edPeso);
-        tvIMC = findViewById(R.id.tvIMC);
-        b = findViewById(R.id.button);
+        lv =  findViewById(R.id.listView);
 
-        b.setOnClickListener(v->{
+        ArrayAdapter<String> a = new ArrayAdapter(
+                this,
+                R.layout.activity_planet,
+                R.id.tvNome,nomes);
 
-            Double peso = Double.parseDouble(edPeso.getText().toString());
-            Double altura = Double.parseDouble(edAltura.getText().toString());
+        lv.setAdapter(a);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            Double imc = peso/(altura*altura);
+                position = 2;
+                Intent intent = new Intent(getApplicationContext(), PlanetActivity.class);
+                intent.putExtra("nome", nomes[position]);
 
-            String imcTxt = imc.toString();
-            tvIMC.setText(imcTxt);
-
+                startActivity(intent);
+            }
         });
+
 
 
     }
