@@ -1,6 +1,8 @@
 package com.ifsc.contaclick;
 
-public class Planeta {
+import java.io.Serializable;
+
+public class Planeta implements Serializable {
 
     String nome;
     Integer imagem;//são recursos acessados por drawable R.drawable.nome

@@ -1,6 +1,7 @@
 package com.ifsc.contaclick;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -21,8 +22,11 @@ public class PlanetActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
 
-        String nome = bundle.getString("nome");
+        Planeta p = (Planeta) bundle.getSerializable("planeta");
         TextView tvNome = findViewById(R.id.tvNome);
-        tvNome.setText(nome);
+        ImageView imageView = findViewById(R.id.imageView);
+
+        imageView.setImageResource(p.imagem);
+        tvNome.setText(p.nome);
     }
 }

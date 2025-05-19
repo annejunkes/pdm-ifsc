@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     Integer i=0;
 
-    String [] nomes = new String[] {"Mercúrio", "Vênus","Marte", "Terra", "Saturno", "Júpiter", "Urano", "Netuno"};
+    //String [] nomes = new String[] {"Mercúrio", "Vênus","Marte", "Terra", "Saturno", "Júpiter", "Urano", "Netuno"};
 
     ListView lv;
 
@@ -29,25 +29,26 @@ public class MainActivity extends AppCompatActivity {
         lv =  findViewById(R.id.listView);
 
         PlanetaDAO planetaDAO= new PlanetaDAO();
-        AdapterPlaneta ap = new AdapterPlaneta(this, R.layout.activity_planet,planetaDAO.getPlanetas());
 
-        //a.getView();
+        AdapterPlaneta ap = new AdapterPlaneta(this,
+                R.layout.activity_planet,
+                planetaDAO.getPlanetas());
+
         lv.setAdapter(ap);
 
-        /*lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Planeta p = planetaDAO.getPlanetas().get(position);
 
-                //position = 2;
                 Intent intent = new Intent(getApplicationContext(), PlanetActivity.class);
-                intent.putExtra("nome", nomes[position]);
+
+                intent.putExtra("planeta", p);
 
                 startActivity(intent);
-
-
             }
-        });*/
-
+        });
 
 
     }
