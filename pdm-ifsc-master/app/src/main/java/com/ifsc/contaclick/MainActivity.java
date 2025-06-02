@@ -1,9 +1,14 @@
 package com.ifsc.contaclick;
 
 import android.content.ContentValues;
+
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        db = openOrCreateDatabase("primeiro", MODE_PRIVATE, null);
-        db.execSQL("CREATE TABLE IF NOT EXISTS NOTAS(id INTEGER PRIMARY KEY AUTOINCREMENT, TXTVARCHAR)");
+        db = openOrCreateDatabase("banco2", Context.MODE_PRIVATE, null);
+        db.execSQL("CREATE TABLE IF NOT EXISTS notas(id INTEGER PRIMARY KEY AUTOINCREMENT, txt VARCHAR)");
 
         b=findViewById(R.id.btnInserir);
         edNome=findViewById(R.id.edNome);
@@ -51,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void listagemNotas(){
-        Cursor cursor = db.rawQuery("SELECT * FROM NOTAS", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM notas", null);
         cursor.moveToFirst();
 
         ArrayList<String> listaNotas = new ArrayList<String>();
@@ -68,10 +73,24 @@ public class MainActivity extends AppCompatActivity {
                 listaNotas);
         lv.setAdapter(adapter);
 
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               //adapter = planetaDAO.getPlanetas().get(position);
+
+                Intent intent = new Intent(getApplicationContext(), ExibeUmaNota.class);
+
+               // intent.putExtra("planeta", p);
+
+                startActivity(intent);
+            }
+        });
+
     }
     public void inserirNota(String txt){
         ContentValues cv = new ContentValues();
         cv.put("txt", txt);
         db.insert("notas", null, cv);
+        listagemNotas();
     }
 }
