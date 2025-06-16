@@ -1,49 +1,55 @@
 package com.ifsc.contaclick;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    Integer i=0;
+    PackageManager pm;
 
-    SensorManager mSensorManager;
+    List<ApplicationInfo> applicationInfosList;
 
-    Sensor sensor;
-
-    TextView tv;
+    ListView lv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+        lv=findViewById(R.id.listView);
 
-        tv=findViewById(R.id.tv);
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        pm = getPackageManager();
 
-        sensor=mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        applicationInfosList = pm.getInstalledApplications(PackageManager.MATCH_ALL);
 
-        mSensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+        AppAdapter appAdapter = new AppAdapter(this, R.layout.app_item,applicationInfosList);
+        lv.setAdapter(appAdapter);
 
+        lv.setOnItemClickListener((adapterView, view, position, l) -> {
 
+            ApplicationInfo appInfo = (ApplicationInfo)adapterView.getItemAtPosition(position);
+            Intent i = pm.getLaunchIntentForPackage(appInfo.packageName);
+            if(i!=null) {
+                startActivity(i);
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "App não lançável", Toast.LENGTH_LONG);
+            }
+        });
     }
 
-   // @Override
-    public void onSensorChanged(SensorEvent sensorEvent){
-        tv.setText(Float.toString(sensorEvent.values[0]));
-    }
-
-    // @Override
-    public void onAccuracyChanged(Sensor sensor, int i){
-
-    }
 }
